@@ -28,7 +28,9 @@ const NotesPage = async () => {
       </header>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {notes.map((note) => (
-          <NoteCard key={note.id} note={note} />
+          <Link href={`/notes/${note.id}`} key={note.id}>
+            <NoteCard note={note} />
+          </Link>
         ))}
       </div>
     </section>

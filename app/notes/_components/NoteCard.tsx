@@ -24,7 +24,7 @@ const NoteCard = ({ note }: Props) => {
       <span className="absolute left-0 top-0 ml-1 mt-1 h-full w-full rounded-lg bg-green-500 "></span>
       <Card className="relative border-green-500">
         <CardHeader>
-          <CardTitle>{note.title}</CardTitle>
+          <CardTitle className="line-clamp-1">{note.title}</CardTitle>
           <CardDescription>{createdUpdateAtTimestamp}</CardDescription>
         </CardHeader>
         <CardContent>
