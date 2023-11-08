@@ -36,7 +36,7 @@ const NoteForm = () => {
     resolver: zodResolver(noteSchema),
   });
 
-  const [error, setError] = useState("sdf sadfsd dsaf");
+  const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
 
   const router = useRouter();
