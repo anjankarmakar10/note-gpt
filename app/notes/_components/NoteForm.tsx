@@ -32,14 +32,12 @@ const NoteForm = () => {
     resolver: zodResolver(noteSchema),
   });
 
-  const onSubmit = form.handleSubmit(async (data) => {
-    console.log(data);
-  });
+  const onSubmit = form.handleSubmit(async (data) => {});
 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={onSubmit} className="space-y-8">
+        <form onSubmit={onSubmit} className="space-y-4">
           <FormField
             control={form.control}
             name="title"
