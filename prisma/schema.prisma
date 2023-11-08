@@ -13,7 +13,7 @@ datasource db {
 model Note {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
-  userId      String   @db.ObjectId
+  userId      String   
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

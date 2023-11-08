@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,6 +19,10 @@ import { noteSchema } from "@/lib/validationsSchemas";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useState } from "react";
+import { Alert, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type NoteFormData = z.infer<typeof noteSchema>;
 
@@ -32,11 +36,32 @@ const NoteForm = () => {
     resolver: zodResolver(noteSchema),
   });
 
-  const onSubmit = form.handleSubmit(async (data) => {});
+  const [error, setError] = useState("sdf sadfsd dsaf");
+  const [isSubmitting, setSubmitting] = useState(false);
+
+  const router = useRouter();
+
+  const onSubmit = form.handleSubmit(async (data) => {
+    try {
+      setSubmitting(true);
+      await axios.post("/api/notes", data);
+      router.push("/notes");
+      router.refresh();
+    } catch (error) {
+      setSubmitting(false);
+      setError("An unexpected error occurred.");
+    }
+  });
 
   return (
     <>
       <Form {...form}>
+        {error && (
+          <Alert className="mb-4" variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>{error}</AlertTitle>
+          </Alert>
+        )}
         <form onSubmit={onSubmit} className="space-y-4">
           <FormField
             control={form.control}
@@ -66,7 +91,10 @@ const NoteForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Create Note</Button>
+          <Button disabled={isSubmitting} type="submit">
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Create Note
+          </Button>
         </form>
       </Form>
     </>
