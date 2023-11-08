@@ -18,7 +18,7 @@ model Note {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   priority    Priority @default(MEDIUM)
-  coverPhoto  String?  
+
   @@map("notes")
 }
 
