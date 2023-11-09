@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs";
 import { Metadata } from "next";
 import Link from "next/link";
 import NoteCard from "./_components/NoteCard";
+import EmptyNotePage from "./EmptyNotePage";
 
 const NotesPage = async () => {
   const { userId } = auth();
@@ -15,6 +16,8 @@ const NotesPage = async () => {
       userId: userId,
     },
   });
+
+  if (notes.length === 0) return <EmptyNotePage />;
 
   return (
     <section>
