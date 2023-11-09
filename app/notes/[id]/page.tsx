@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import prisma from "@/prisma/prisma";
+import Link from "next/link";
 import Markdown from "react-markdown";
 
 interface Props {
@@ -38,8 +39,8 @@ const NotePage = async ({ params }: Props) => {
         </div>
       </article>
       <div className="col-span-2 flex flex-col gap-2">
-        <Button className="font-medium" variant="outline">
-          Edit Note
+        <Button asChild className="font-medium" variant="outline">
+          <Link href={`/notes/edit/${note.id}`}>Edit Note</Link>
         </Button>
         <Button className="font-medium" variant="outline">
           Delete Note

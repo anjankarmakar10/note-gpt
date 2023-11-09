@@ -24,6 +24,15 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Priority } from "@prisma/client";
+
 type NoteFormData = z.infer<typeof noteSchema>;
 
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
@@ -31,9 +40,34 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   loading: () => <Skeleton className="h-[405px] rounded-md" />,
 });
 
-const NoteForm = () => {
+interface Props {
+  note?: Note;
+}
+
+const priorities: { label: string; value?: Priority }[] = [
+  { label: "Low", value: "LOW" },
+  { label: "Mdeium", value: "MEDIUM" },
+  { label: "High", value: "HIGH" },
+];
+
+const NoteForm = ({ note }: Props) => {
+  const className = (priority: string) => {
+    return `${
+      priority === "LOW"
+        ? "text-blue-500"
+        : priority === "HIGH"
+        ? "text-rose-500"
+        : "text-orange-500"
+    } font-semibold`;
+  };
+
   const form = useForm<NoteFormData>({
     resolver: zodResolver(noteSchema),
+    defaultValues: {
+      title: note?.title,
+      description: note?.description,
+      priority: note?.priority || "MEDIUM",
+    },
   });
 
   const [error, setError] = useState("");
@@ -44,10 +78,15 @@ const NoteForm = () => {
   const onSubmit = form.handleSubmit(async (data) => {
     try {
       setSubmitting(true);
-      await axios.post("/api/notes", data);
+      if (note) {
+        await axios.patch("/api/notes/" + note.id, data);
+      } else {
+        await axios.post("/api/notes", data);
+      }
       router.push("/notes");
       router.refresh();
     } catch (error) {
+      console.error(error);
       setSubmitting(false);
       setError("An unexpected error occurred.");
     }
@@ -68,15 +107,46 @@ const NoteForm = () => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-lg">Title</FormLabel>
+                <FormLabel className="text-lg ">Title</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="priority"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-lg ">Priority</FormLabel>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger
+                      className={className(note?.priority || "MEDIUM")}
+                    >
+                      <SelectValue placeholder={note?.priority || "Mdeium"} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {priorities.map((priority) => (
+                      <SelectItem
+                        className={className(priority.value!!)}
+                        key={priority.label}
+                        value={priority.value!!}
+                      >
+                        {priority.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="description"
@@ -93,7 +163,7 @@ const NoteForm = () => {
           />
           <Button disabled={isSubmitting} type="submit">
             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Create Note
+            {note ? "Update Note" : "Create Note"}
           </Button>
         </form>
       </Form>
