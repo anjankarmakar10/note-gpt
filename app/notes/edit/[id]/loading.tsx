@@ -4,7 +4,7 @@ const loading = () => {
   return (
     <section className="mx-auto max-w-5xl">
       <header className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold md:text-4xl">New Note</h1>
+        <h1 className="text-2xl font-bold md:text-4xl">Edit Note</h1>
       </header>
       <section className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
