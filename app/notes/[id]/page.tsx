@@ -43,7 +43,7 @@ const NotePage = async ({ params }: Props) => {
         <Button asChild className="font-medium" variant="outline">
           <Link href={`/notes/edit/${note.id}`}>Edit Note</Link>
         </Button>
-        <DeleteNoteAction noteId={note.id} />
+        <DeleteNoteAction note={note} />
       </div>
     </section>
   );

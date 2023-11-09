@@ -11,6 +11,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { ToastAction } from "@/components/ui/toast";
 import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
@@ -18,30 +19,52 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface Props {
-  noteId: string;
+  note: Note;
 }
 
-const DeleteNoteAction = ({ noteId }: Props) => {
+const DeleteNoteAction = ({ note }: Props) => {
   const router = useRouter();
 
   const [isDeleting, setDeleting] = useState(false);
 
-  console.log(noteId);
+  if (!note) return null;
 
-  if (!noteId) return null;
+  const handleUndoDelete = async () => {
+    try {
+      await axios.post("/api/notes", note);
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Something went wrong!",
+      });
+    }
+  };
 
   const handleDelete = async () => {
     try {
       setDeleting(true);
-      await axios.delete("/api/notes/" + noteId);
+      await axios.delete("/api/notes/" + note.id);
       router.push("/notes");
       router.refresh();
       toast({
-        title: "Succesfully deleted note",
+        title: "Successfully deleted note",
+        description: "Wanna undo the change",
+        action: (
+          <ToastAction
+            onClick={handleUndoDelete}
+            altText="Goto schedule to undo"
+          >
+            Undo
+          </ToastAction>
+        ),
       });
     } catch (error) {
       setDeleting(false);
       console.error(error);
+      toast({
+        title: "Something went wrong!",
+      });
     }
   };
 

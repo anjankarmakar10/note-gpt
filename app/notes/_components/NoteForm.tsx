@@ -46,7 +46,7 @@ interface Props {
 
 const priorities: { label: string; value?: Priority }[] = [
   { label: "Low", value: "LOW" },
-  { label: "Mdeium", value: "MEDIUM" },
+  { label: "Medium", value: "MEDIUM" },
   { label: "High", value: "HIGH" },
 ];
 
@@ -92,6 +92,8 @@ const NoteForm = ({ note }: Props) => {
     }
   });
 
+  const data = form.watch();
+
   return (
     <>
       <Form {...form}>
@@ -125,9 +127,9 @@ const NoteForm = ({ note }: Props) => {
                 <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger
-                      className={className(note?.priority || "MEDIUM")}
+                      className={className(note?.priority || data.priority!!)}
                     >
-                      <SelectValue placeholder={note?.priority || "Mdeium"} />
+                      <SelectValue placeholder={note?.priority || "Medium"} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

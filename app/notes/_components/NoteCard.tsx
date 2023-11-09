@@ -22,19 +22,19 @@ const NoteCard = ({ note }: Props) => {
   const className = (priority: string) => {
     return `${
       priority === "LOW"
-        ? "blue-500"
+        ? "bg-blue-500"
         : priority === "HIGH"
-        ? "rose-500"
-        : "orange-500"
+        ? "bg-rose-500"
+        : "bg-orange-500"
     }`;
   };
 
-  const color = className(note.priority);
+  const bg = className(note.priority);
 
   return (
     <div className="group relative h-fit cursor-pointer">
       <span
-        className={`absolute inset-[2px] h-full w-full rounded-md bg-${color} transition-all group-hover:ml-1 group-hover:mt-1`}
+        className={`absolute inset-[2px] h-full w-full rounded-md bg-slate-600  transition-all group-hover:ml-1 group-hover:mt-1`}
       ></span>
       <Card className={`relative`}>
         <CardHeader>
@@ -42,7 +42,7 @@ const NoteCard = ({ note }: Props) => {
           <CardDescription>{createdUpdateAtTimestamp}</CardDescription>
           <CardDescription
             title={`Priority: ${note.priority}`}
-            className="text-xs font-semibold"
+            className={`text-xs font-semibold ${bg} w-fit rounded-full px-2 text-white`}
           >
             {note.priority}
           </CardDescription>
