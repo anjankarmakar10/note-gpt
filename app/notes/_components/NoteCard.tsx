@@ -40,6 +40,12 @@ const NoteCard = ({ note }: Props) => {
         <CardHeader>
           <CardTitle className="line-clamp-1">{note.title}</CardTitle>
           <CardDescription>{createdUpdateAtTimestamp}</CardDescription>
+          <CardDescription
+            title={`Priority: ${note.priority}`}
+            className="text-xs font-semibold"
+          >
+            {note.priority}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ReactMarkdown className="prose line-clamp-2 text-sm text-muted-foreground">
