@@ -41,7 +41,7 @@ export default function Home() {
               <Link href="/notes">
                 <Button
                   size="lg"
-                  className="rounded bg-green-600 px-4 py-4 text-2xl font-medium text-white shadow"
+                  className="rounded bg-green-600 px-4 py-4 text-2xl font-medium text-white shadow dark:hover:bg-slate-700"
                 >
                   Get Started
                 </Button>

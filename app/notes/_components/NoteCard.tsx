@@ -34,7 +34,7 @@ const NoteCard = ({ note }: Props) => {
   return (
     <div className="group relative h-fit cursor-pointer">
       <span
-        className={`absolute inset-[2px] h-full w-full rounded-md bg-slate-600  transition-all group-hover:ml-1 group-hover:mt-1`}
+        className={`absolute inset-[2px] h-full w-full rounded-md bg-slate-600 transition-all group-hover:ml-1 group-hover:mt-1 dark:bg-slate-500`}
       ></span>
       <Card className={`relative`}>
         <CardHeader>
@@ -48,7 +48,7 @@ const NoteCard = ({ note }: Props) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ReactMarkdown className="prose line-clamp-2 text-sm text-muted-foreground">
+          <ReactMarkdown className="prose line-clamp-2 text-sm text-muted-foreground dark:prose-invert">
             {note.description}
           </ReactMarkdown>
         </CardContent>

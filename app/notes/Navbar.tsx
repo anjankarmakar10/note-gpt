@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/logo.png";
 import { UserButton } from "@clerk/nextjs";
+import ThemeToggle from "@/components/ThemeToggle";
 const Navbar = () => {
   return (
     <header className="sticky top-0 z-50  bg-white shadow dark:bg-slate-800">
@@ -22,7 +23,7 @@ const Navbar = () => {
           </span>
         </Link>
         <NavigationMenu>
-          <NavigationMenuList>
+          <NavigationMenuList className="gap-2">
             <NavigationMenuItem asChild>
               <Link href="/notes">
                 <NavigationMenuLink
@@ -35,6 +36,9 @@ const Navbar = () => {
             </NavigationMenuItem>
             <NavigationMenuItem asChild>
               <UserButton afterSignOutUrl="/" />
+            </NavigationMenuItem>
+            <NavigationMenuItem asChild>
+              <ThemeToggle />
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>

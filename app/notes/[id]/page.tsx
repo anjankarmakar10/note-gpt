@@ -40,7 +40,7 @@ const NotePage = async ({ params }: Props) => {
           <p className="text-muted-foreground">{createdUpdateAtTimestamp}</p>
         </header>
 
-        <div className="prose">
+        <div className="prose dark:prose-invert">
           <Markdown>{note?.description}</Markdown>
         </div>
       </article>

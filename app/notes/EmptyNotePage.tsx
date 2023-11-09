@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const EmptyNotePage = () => {
   return (
-    <section className=" bg-white text-gray-600 dark:bg-slate-900">
+    <section className=" rounded-md bg-white text-gray-600 dark:bg-slate-950">
       <div className="container mx-auto flex flex-col items-center md:flex-row md:px-24 md:py-10">
         <div className="md:w-1.5/2 mb-16 mt-5   flex flex-col items-center text-center md:mb-0 md:mt-0 md:items-start md:pr-16 md:text-left lg:flex-grow lg:pr-24">
           <h1 className="mb-3 text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-normal">
