@@ -3,6 +3,7 @@ import prisma from "@/prisma/prisma";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import DeleteNoteAction from "../_components/DeleteNoteAction";
+import { cache } from "react";
 
 interface Props {
   params: {
@@ -10,12 +11,16 @@ interface Props {
   };
 }
 
-const NotePage = async ({ params }: Props) => {
-  const note = await prisma.note.findUnique({
+const fetchNote = cache((noteId: string) =>
+  prisma.note.findUnique({
     where: {
-      id: params.id,
+      id: noteId,
     },
-  });
+  }),
+);
+
+const NotePage = async ({ params }: Props) => {
+  const note = await fetchNote(params.id);
 
   if (!note) return null;
 
