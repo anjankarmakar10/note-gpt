@@ -11,6 +11,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -35,6 +36,9 @@ const DeleteNoteAction = ({ noteId }: Props) => {
       await axios.delete("/api/notes/" + noteId);
       router.push("/notes");
       router.refresh();
+      toast({
+        title: "Succesfully deleted note",
+      });
     } catch (error) {
       setDeleting(false);
       console.error(error);
