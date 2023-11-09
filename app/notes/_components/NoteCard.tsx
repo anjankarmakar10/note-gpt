@@ -32,11 +32,11 @@ const NoteCard = ({ note }: Props) => {
   const color = className(note.priority);
 
   return (
-    <div className="relative h-fit cursor-pointer">
+    <div className="group relative h-fit cursor-pointer">
       <span
-        className={`absolute left-0 top-0 ml-1 mt-1 h-full w-full rounded-lg bg-${color}`}
+        className={`absolute inset-[2px] h-full w-full rounded-md bg-${color} transition-all group-hover:ml-1 group-hover:mt-1`}
       ></span>
-      <Card className={`relative border-${color}`}>
+      <Card className={`relative`}>
         <CardHeader>
           <CardTitle className="line-clamp-1">{note.title}</CardTitle>
           <CardDescription>{createdUpdateAtTimestamp}</CardDescription>
