@@ -3,8 +3,8 @@ import prisma from "@/prisma/prisma";
 import { auth } from "@clerk/nextjs";
 import { Metadata } from "next";
 import Link from "next/link";
-import NoteCard from "./_components/NoteCard";
 import EmptyNotePage from "./EmptyNotePage";
+import Notes from "./Notes";
 
 const NotesPage = async () => {
   const { userId } = auth();
@@ -29,13 +29,7 @@ const NotesPage = async () => {
           </Button>
         </Link>
       </header>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {notes.map((note) => (
-          <Link href={`/notes/${note.id}`} key={note.id}>
-            <NoteCard note={note} />
-          </Link>
-        ))}
-      </div>
+      <Notes notes={notes} />
     </section>
   );
 };
