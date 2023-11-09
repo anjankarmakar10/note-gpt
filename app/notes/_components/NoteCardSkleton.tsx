@@ -25,7 +25,7 @@ const NoteCardSkleton = () => {
             <Skeleton className="h-4 w-[60px] rounded-full" />
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-col gap-1">
           <Skeleton className="h-5 w-full rounded-full" />
           <Skeleton className="h-5 w-full rounded-full" />
         </CardContent>
