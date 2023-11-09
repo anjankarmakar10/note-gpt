@@ -35,3 +35,25 @@ export async function PATCH(
 
   return NextResponse.json(updatedNote, { status: 201 });
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const { userId } = auth();
+  if (!userId)
+    return NextResponse.json({ error: "Invalid user." }, { status: 400 });
+
+  const note = await prisma.note.findUnique({
+    where: { id: params.id },
+  });
+
+  if (!note)
+    return NextResponse.json({ error: "Invalid note" }, { status: 404 });
+
+  const result = await prisma.note.delete({
+    where: { id: params.id },
+  });
+
+  return NextResponse.json(result, { status: 201 });
+}

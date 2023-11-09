@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import prisma from "@/prisma/prisma";
 import Link from "next/link";
 import Markdown from "react-markdown";
+import DeleteNoteAction from "../_components/DeleteNoteAction";
 
 interface Props {
   params: {
@@ -25,7 +26,7 @@ const NotePage = async ({ params }: Props) => {
   ).toDateString();
 
   return (
-    <section className="mx-auto flex max-w-4xl grid-cols-12 flex-col gap-8 lg:grid lg:gap-1">
+    <section className="mx-auto flex max-w-4xl grid-cols-12 flex-col gap-8 pt-8 lg:grid lg:gap-1">
       <article className="col-span-10">
         <header className=" mb-8 flex flex-col gap-2">
           <h1 className="max-w-3xl text-2xl font-bold leading-normal md:text-3xl">
@@ -42,9 +43,7 @@ const NotePage = async ({ params }: Props) => {
         <Button asChild className="font-medium" variant="outline">
           <Link href={`/notes/edit/${note.id}`}>Edit Note</Link>
         </Button>
-        <Button className="font-medium" variant="outline">
-          Delete Note
-        </Button>
+        <DeleteNoteAction noteId={note.id} />
       </div>
     </section>
   );
