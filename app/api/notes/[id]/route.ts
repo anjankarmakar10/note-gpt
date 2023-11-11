@@ -1,3 +1,5 @@
+import { getEmbeddingForNote } from "@/lib/openai";
+import { notesIndex } from "@/lib/pinecone";
 import { noteSchema } from "@/lib/validationsSchemas";
 import prisma from "@/prisma/prisma";
 import { auth } from "@clerk/nextjs";
@@ -24,13 +26,30 @@ export async function PATCH(
   if (!note)
     return NextResponse.json({ error: "Invalid note" }, { status: 404 });
 
-  const updatedNote = await prisma.note.update({
-    where: { id: params.id },
-    data: {
-      title: body.title.trim(""),
-      description: body.description,
-      priority: body.priority,
-    },
+  const embedding = await getEmbeddingForNote(
+    body.title.trim(""),
+    body.description,
+  );
+
+  const updatedNote = await prisma.$transaction(async (tx) => {
+    const updatedNote = await prisma.note.update({
+      where: { id: params.id },
+      data: {
+        title: body.title.trim(""),
+        description: body.description,
+        priority: body.priority,
+      },
+    });
+
+    await notesIndex.upsert([
+      {
+        id: params.id,
+        values: embedding,
+        metadata: { userId },
+      },
+    ]);
+
+    return updatedNote;
   });
 
   return NextResponse.json(updatedNote, { status: 201 });
@@ -51,8 +70,14 @@ export async function DELETE(
   if (!note)
     return NextResponse.json({ error: "Invalid note" }, { status: 404 });
 
-  const result = await prisma.note.delete({
-    where: { id: params.id },
+  const result = await prisma.$transaction(async (tx) => {
+    const result = await tx.note.delete({
+      where: { id: params.id },
+    });
+
+    await notesIndex.deleteOne(params.id);
+
+    return result;
   });
 
   return NextResponse.json(result, { status: 201 });
