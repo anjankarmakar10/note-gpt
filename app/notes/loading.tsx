@@ -10,7 +10,6 @@ const loading = () => {
         <Skeleton className="h-9 w-[120px]" />
       </header>
       <div className="mb-8 flex max-w-xs flex-col gap-2 ">
-        <Label>Filter By Priority</Label>
         <Skeleton className="h-9 w-[320px]" />
       </div>
 

@@ -5,12 +5,12 @@ import { Metadata } from "next";
 import Link from "next/link";
 import EmptyNotePage from "./EmptyNotePage";
 import Notes from "./Notes";
-import Filter from "./Filter";
-import { Label } from "@/components/ui/label";
 import { Priority } from "@prisma/client";
+import Filters from "./Filters";
 
 export interface NoteQuery {
   priority: Priority;
+  orderByTitle: string;
 }
 
 interface Props {
@@ -28,11 +28,23 @@ const NotesPage = async ({ searchParams }: Props) => {
     ? searchParams.priority
     : undefined;
 
+  const orders = Object.values({
+    a: "asc",
+    d: "desc",
+  });
+
+  const order = orders.includes(searchParams.orderByTitle)
+    ? searchParams.orderByTitle === "asc"
+      ? "asc"
+      : "desc"
+    : undefined;
+
   const notes = await prisma.note.findMany({
     where: {
       userId: userId,
       priority: priority,
     },
+    orderBy: { title: order },
   });
 
   if (notes.length === 0 && !priority) return <EmptyNotePage />;
@@ -47,10 +59,7 @@ const NotesPage = async ({ searchParams }: Props) => {
           </Button>
         </Link>
       </header>
-      <div className="mb-8 flex max-w-xs flex-col gap-2 ">
-        <Label>Filter By Priority</Label>
-        <Filter />
-      </div>
+      <Filters />
       <Notes notes={notes} />
     </section>
   );

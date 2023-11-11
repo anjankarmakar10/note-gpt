@@ -28,7 +28,7 @@ const className = (priority: string) => {
   } font-semibold`;
 };
 
-const Filter = () => {
+const FilterByPriority = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -57,4 +57,4 @@ const Filter = () => {
     </Select>
   );
 };
-export default Filter;
+export default FilterByPriority;
