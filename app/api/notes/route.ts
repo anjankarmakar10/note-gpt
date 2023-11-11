@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
       title: body.title.trim(""),
       description: body.description,
       priority: body.priority,
+      color: body.color,
     },
   });
 

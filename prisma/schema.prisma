@@ -15,6 +15,7 @@ model Note {
   title       String
   userId      String   
   description String
+  color       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   priority    Priority @default(MEDIUM)

@@ -32,7 +32,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Priority } from "@prisma/client";
-
+import { CirclePicker } from "react-color";
+import NoteCard from "./NoteCard";
 type NoteFormData = z.infer<typeof noteSchema>;
 
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
@@ -51,6 +52,8 @@ const priorities: { label: string; value?: Priority }[] = [
 ];
 
 const NoteForm = ({ note }: Props) => {
+  const [show, setShow] = useState(false);
+
   const className = (priority: string) => {
     return `${
       priority === "LOW"
@@ -67,6 +70,7 @@ const NoteForm = ({ note }: Props) => {
       title: note?.title,
       description: note?.description,
       priority: note?.priority || "MEDIUM",
+      color: note?.color,
     },
   });
 
@@ -163,12 +167,52 @@ const NoteForm = ({ note }: Props) => {
               </FormItem>
             )}
           />
-          <Button disabled={isSubmitting} type="submit">
-            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {note ? "Update Note" : "Create Note"}
-          </Button>
+
+          <FormField
+            control={form.control}
+            name="color"
+            render={({ field: { onChange } }) => (
+              <FormItem>
+                <FormLabel className="text-lg">Chose Color</FormLabel>
+                <FormControl>
+                  <CirclePicker
+                    onChange={(data) => {
+                      onChange(data.hex);
+                    }}
+                    width="100%"
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="flex justify-end gap-4">
+            <Button disabled={isSubmitting} type="submit">
+              {isSubmitting && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              {note ? "Update Note" : "Create Note"}
+            </Button>
+            <Button onClick={() => setShow((p) => !p)} type="button">
+              {show ? "Hide Preview" : "Show Preview"}
+            </Button>
+          </div>
         </form>
       </Form>
+      <div className="pointer-events-none max-w-sm p-4">
+        {show && (
+          <NoteCard
+            note={{
+              ...data,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              priority: data.priority!!,
+            }}
+          />
+        )}
+      </div>
     </>
   );
 };

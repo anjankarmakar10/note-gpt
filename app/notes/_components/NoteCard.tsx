@@ -36,19 +36,30 @@ const NoteCard = ({ note }: Props) => {
       <span
         className={`absolute inset-[2px] h-full w-full rounded-md bg-slate-600 transition-all group-hover:ml-1 group-hover:mt-1 dark:bg-slate-500`}
       ></span>
-      <Card className={`relative`}>
+      <Card
+        style={{
+          backgroundColor: note.color,
+        }}
+        className={`relative ${note.color && "text-white"}`}
+      >
         <CardHeader>
           <CardTitle className="line-clamp-1">{note.title}</CardTitle>
-          <CardDescription>{createdUpdateAtTimestamp}</CardDescription>
+          <CardDescription className={`${note.color && "text-white"}`}>
+            {createdUpdateAtTimestamp}
+          </CardDescription>
           <CardDescription
             title={`Priority: ${note.priority}`}
-            className={`text-xs font-semibold ${bg} w-fit rounded-full px-2 text-white`}
+            className={`text-xs font-semibold ${bg} w-fit rounded-full px-2 text-white `}
           >
             {note.priority}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ReactMarkdown className="prose line-clamp-2 text-sm text-muted-foreground dark:prose-invert">
+          <ReactMarkdown
+            className={`prose line-clamp-2 text-sm text-muted-foreground dark:prose-invert ${
+              note.color && "text-white"
+            }`}
+          >
             {note.description}
           </ReactMarkdown>
         </CardContent>

@@ -58,6 +58,7 @@ export async function PATCH(
       title: body.title.trim(""),
       description: body.description,
       priority: body.priority,
+      color: body.color,
     },
   });
 

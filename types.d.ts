@@ -6,4 +6,5 @@ type Note = {
   createdAt: Date;
   updatedAt: Date;
   priority: string;
+  color?: string | undefined;
 };
