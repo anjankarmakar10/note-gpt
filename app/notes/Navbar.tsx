@@ -12,6 +12,7 @@ import Link from "next/link";
 import logo from "@/public/logo.png";
 import { UserButton } from "@clerk/nextjs";
 import ThemeToggle from "@/components/ThemeToggle";
+import AIChatButton from "@/components/AIChatButton";
 const Navbar = () => {
   return (
     <header className="sticky top-0 z-50  bg-white shadow dark:bg-slate-950">
@@ -39,6 +40,9 @@ const Navbar = () => {
             </NavigationMenuItem>
             <NavigationMenuItem asChild>
               <ThemeToggle />
+            </NavigationMenuItem>
+            <NavigationMenuItem asChild>
+              <AIChatButton />
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>

@@ -1,14 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: "/",
-  //       destination: "/notes",
-  //       permanent: true,
-  //     },
-  //   ];
-  // },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "img.clerk.com",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;
