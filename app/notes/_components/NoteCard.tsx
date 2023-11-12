@@ -38,9 +38,9 @@ const NoteCard = ({ note }: Props) => {
       ></span>
       <Card
         style={{
-          backgroundColor: note.color,
+          backgroundColor: note?.color || "",
         }}
-        className={`relative ${note.color && "text-white"}`}
+        className={`relative ${note?.color && "text-white"}`}
       >
         <CardHeader>
           <CardTitle className="line-clamp-1">{note.title}</CardTitle>

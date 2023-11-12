@@ -70,7 +70,7 @@ const NoteForm = ({ note }: Props) => {
       title: note?.title,
       description: note?.description,
       priority: note?.priority || "MEDIUM",
-      color: note?.color,
+      color: note?.color || "",
     },
   });
 
